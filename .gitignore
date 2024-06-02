@@ -1,0 +1,8 @@
+*Lib
+pip3*
+*.exe
+*.bat
+*.ps1
+activate
+*.cfg
+*.pyc
