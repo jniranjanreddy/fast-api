@@ -2,6 +2,9 @@ from fastapi import FastAPI, Depends, status, Response, HTTPException
 from . import schemas, models
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
+from typing import List
+from passlib.context import CryptContext
+from . hashing import Hash
 
 
 app = FastAPI()
@@ -44,10 +47,7 @@ def update(id, request: schemas.Blog, db: Session = Depends(get_db)):
     # db.refresh(blog)
     return {"put request Successfully Completed"}
 
-
-
-
-@app.get("/blog")
+@app.get("/blog", response_model=List[schemas.ShowBlog])
 def all(db: Session = Depends(get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
@@ -63,9 +63,13 @@ def show(id, response: Response, db: Session = Depends(get_db)):
 
 ##############
 ## User Requests Begin
+
+
+
+
 @app.post('/user')
 def create_user(request: schemas.User,db: Session = Depends(get_db)):
-    new_user = models.User(name=request.name,email=request.email,password=request.password)
+    new_user = models.User(name=request.name,email=request.email,password=Hash.bcrypt(request.password))
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
