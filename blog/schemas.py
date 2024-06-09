@@ -1,7 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-
 ## User related Schemas
 class User(BaseModel):
     name:str
@@ -23,3 +22,15 @@ class Blog(BaseModel):
 class ShowBlog(Blog):
     class Config():
         from_attributes  = True
+
+class Login(BaseModel):
+    username: str
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
