@@ -14,4 +14,15 @@
 Path Parameter
 query Parameter
 Request Body
+
+```
+cat requirements.txt
+fastapi 
+uvicorn[standard]
+
+cat main.py
+
+
+uvicorn main:app
+ 
 ```
